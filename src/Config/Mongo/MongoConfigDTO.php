@@ -17,6 +17,10 @@ namespace Maatify\InfraDrivers\Config\Mongo;
 
 final readonly class MongoConfigDTO
 {
+    /**
+     * @param array<string, mixed> $uriOptions
+     * @param array<string, mixed> $driverOptions
+     */
     public function __construct(
         public string $uri,
         public array $uriOptions = [],

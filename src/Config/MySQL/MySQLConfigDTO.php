@@ -17,6 +17,10 @@ namespace Maatify\InfraDrivers\Config\MySQL;
 
 final readonly class MySQLConfigDTO
 {
+
+    /**
+     * @param array<string, mixed> $options
+     */
     public function __construct(
         public string $dsn,
         public string $username,
