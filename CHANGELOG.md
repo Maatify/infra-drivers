@@ -8,37 +8,62 @@ This project follows:
 
 ---
 
-## [Unreleased]
+## [1.0.0] — Initial Stable Release
 
 ### Added
-- Project governance and architectural boundaries.
-- Locked design principles for infrastructure driver construction.
-- Initial repository structure and tooling configuration.
 
----
+#### Core Infrastructure
+- Infrastructure driver builders for:
+  - MySQL (PDO)
+  - MySQL (Doctrine DBAL)
+  - Redis (ext-redis)
+  - Redis (Predis)
+  - MongoDB
+- Explicit, typed, readonly configuration DTOs for all drivers.
+- Deterministic validation with typed infrastructure exceptions.
+- Strict separation between:
+  - Configuration
+  - Driver construction
+  - Adapters and application logic
 
-## [1.0.0] — Initial Release (Planned)
+#### Dependency & Policy
+- Zero implicit or hidden dependencies.
+- Strict opt-in dependency model using Composer `suggest`.
+- Explicit dependency matrix per driver builder.
+- Deterministic failure behavior for missing extensions or libraries.
 
-### Added
-- `composer.json` with PHP ≥ 8.2 requirement.
+#### Documentation
+- Complete user-facing `README.md` with:
+  - Clear scope and non-goals
+  - Architectural positioning
+  - Quick Start example
+  - Usage examples linkage
+- Standalone executable usage examples for all supported drivers:
+  - MySQL (PDO, DBAL)
+  - Redis (ext-redis, Predis)
+  - MongoDB
+- Governance and policy documentation:
+  - `SECURITY.md`
+  - `CONTRIBUTING.md`
+  - `CODE_OF_CONDUCT.md`
+
+#### Tooling & Quality
+- PHP ≥ 8.4 support.
 - Strict PSR-4 autoloading for `Maatify\InfraDrivers`.
 - Development tooling:
-    - PHPUnit 11
-    - PHPStan (level max)
-    - PHP CS Fixer
-- Governance and policy files:
-    - `README.md`
-    - `SECURITY.md`
-    - `CONTRIBUTING.md`
-    - `CODE_OF_CONDUCT.md`
-- Architectural artifacts:
-    - `api-map.json` (initialized, empty)
-    - `phase-output.json` (Phase A record)
+  - PHPUnit 11
+  - PHPStan (level max)
+  - PHP CS Fixer
+- CI pipeline with static analysis and test execution.
 
 ### Notes
-- This release contains **no source code** by design.
-- All architecture and scope decisions are **LOCKED**.
-- Public APIs will be introduced in subsequent phases.
+- This release establishes the **stable public foundation** of the library.
+- Architecture, scope, and dependency policy are **LOCKED**.
+- No environment loading, DI containers, runtime detection, or fallback logic exist by design.
+- Future releases will focus on:
+  - Coverage hardening
+  - Minor enhancements
+  - Strictly backward-compatible improvements.
 
 ---
 
@@ -46,4 +71,4 @@ This project follows:
 
 - Public API additions → **minor version**
 - Public API changes/removals → **major version**
-- Internal or tooling changes → **patch version**
+- Internal improvements, tooling, or documentation → **patch version**
