@@ -20,6 +20,7 @@ jobs:
       TELEGRAM_CI_CHAT_ID: ${{ secrets.TELEGRAM_CI_CHAT_ID }}
 
   badge:
+
     needs: library
     if: github.event_name == 'push'
     uses: maatify/.github/.github/workflows/coverage-badge.yml@main
