@@ -173,7 +173,34 @@
         "Documented explicit non-goals and misuse patterns",
         "No code, API, or behavior changes introduced"
       ]
+    },
+    {
+      "phase": "phaseG",
+      "title": "Dependency Matrix & Composer Policy",
+      "status": "completed",
+      "changes": {
+        "added": {
+          "classes": [],
+          "methods": []
+        },
+        "edited": {
+          "classes": [],
+          "methods": []
+        },
+        "deleted": {
+          "classes": [],
+          "methods": []
+        }
+      },
+      "notes": [
+        "Formalized dependency philosophy with strict opt-in model",
+        "Documented explicit dependency matrix per driver builder",
+        "Locked composer policy (require vs suggest) with zero implicit dependencies",
+        "Confirmed deterministic failure model for missing dependencies",
+        "No source code, API, test, or behavior changes introduced"
+      ]
     }
+
 
   ]
 }
