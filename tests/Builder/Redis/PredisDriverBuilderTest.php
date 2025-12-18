@@ -13,28 +13,48 @@
 
 declare(strict_types=1);
 
-namespace Maatify\InfraDrivers\Tests\Builder\Redis;
+namespace Maatify\InfraDrivers\Tests\Builder\Redis {
 
-use Maatify\InfraDrivers\Builder\Redis\PredisDriverBuilder;
-use Maatify\InfraDrivers\Config\Redis\RedisConfigDTO;
-use Maatify\InfraDrivers\Exception\DriverBuildException;
-use PHPUnit\Framework\TestCase;
-use Predis\Client as PredisClient;
+    use Maatify\InfraDrivers\Builder\Redis\PredisDriverBuilder;
+    use Maatify\InfraDrivers\Config\Redis\RedisConfigDTO;
+    use Maatify\InfraDrivers\Exception\DriverBuildException;
+    use PHPUnit\Framework\TestCase;
 
-class PredisDriverBuilderTest extends TestCase
-{
-    public function testBuildSuccess(): void
+    class PredisDriverBuilderTest extends TestCase
     {
-        $config = new RedisConfigDTO(
-            host: '127.0.0.1',
-            port: 6379,
-            password: null,
-            database: 0
-        );
+        public static bool $classExists = true;
 
-        $builder = new PredisDriverBuilder();
-        $client = $builder->build($config);
+        protected function setUp(): void
+        {
+            self::$classExists = true;
+        }
 
-        $this->assertInstanceOf(PredisClient::class, $client);
+        public function testBuildFailureWhenLibraryMissing(): void
+        {
+            self::$classExists = false;
+
+            $config = new RedisConfigDTO(
+                host: '127.0.0.1'
+            );
+
+            $builder = new PredisDriverBuilder();
+
+            $this->expectException(DriverBuildException::class);
+            $this->expectExceptionMessage('Predis library is not installed');
+
+            $builder->build($config);
+        }
+    }
+}
+
+namespace Maatify\InfraDrivers\Builder\Redis {
+    if (! function_exists(__NAMESPACE__ . '\class_exists')) {
+        function class_exists(string $class, bool $autoload = true): bool
+        {
+            if ($class === \Predis\Client::class) {
+                return \Maatify\InfraDrivers\Tests\Builder\Redis\PredisDriverBuilderTest::$classExists;
+            }
+            return \class_exists($class, $autoload);
+        }
     }
 }

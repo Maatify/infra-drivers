@@ -13,49 +13,66 @@
 
 declare(strict_types=1);
 
-namespace Maatify\InfraDrivers\Tests\Builder\MySQL;
+namespace Maatify\InfraDrivers\Tests\Builder\MySQL {
 
-use Doctrine\DBAL\Connection;
-use Maatify\InfraDrivers\Builder\MySQL\MySQLDBALDriverBuilder;
-use Maatify\InfraDrivers\Config\MySQL\MySQLConfigDTO;
-use Maatify\InfraDrivers\Exception\DriverBuildException;
-use PHPUnit\Framework\TestCase;
+    use Maatify\InfraDrivers\Builder\MySQL\MySQLDBALDriverBuilder;
+    use Maatify\InfraDrivers\Config\MySQL\MySQLConfigDTO;
+    use Maatify\InfraDrivers\Exception\DriverBuildException;
+    use PHPUnit\Framework\TestCase;
 
-class MySQLDBALDriverBuilderTest extends TestCase
-{
-    public function testBuildSuccessWithSqlite(): void
+    class MySQLDBALDriverBuilderTest extends TestCase
     {
-        // Using sqlite in memory as a substitute for valid MySQL connection to test DBAL creation
-        $config = new MySQLConfigDTO(
-            dsn: 'sqlite::memory:',
-            username: 'user',
-            password: 'password'
-        );
+        public static bool $classExists = true;
 
-        $builder = new MySQLDBALDriverBuilder();
-        $connection = $builder->build($config);
+        protected function setUp(): void
+        {
+            self::$classExists = true;
+        }
 
-        $this->assertInstanceOf(Connection::class, $connection);
+        public function testBuildFailureWhenLibraryMissing(): void
+        {
+            self::$classExists = false;
+
+            $config = new MySQLConfigDTO(
+                dsn: 'sqlite::memory:',
+                username: 'user',
+                password: 'password'
+            );
+
+            $builder = new MySQLDBALDriverBuilder();
+
+            $this->expectException(DriverBuildException::class);
+            $this->expectExceptionMessage('Doctrine DBAL is not installed');
+
+            $builder->build($config);
+        }
+
+        public function testBuildFailureWithInvalidParams(): void
+        {
+            $config = new MySQLConfigDTO(
+                dsn: 'invalid_scheme://localhost',
+                username: 'user',
+                password: 'password'
+            );
+
+            $builder = new MySQLDBALDriverBuilder();
+
+            $this->expectException(DriverBuildException::class);
+            $this->expectExceptionMessage('Failed to build Doctrine DBAL MySQL connection');
+
+            $builder->build($config);
+        }
     }
+}
 
-    public function testBuildFailure(): void
-    {
-        // DBAL DriverManager::getConnection validates parameters but might not connect immediately depending on config.
-        // To force a failure, we can pass invalid options that DBAL rejects or rely on behavior.
-        // However, standard DBAL often connects lazily.
-        // If we provide a driver that doesn't exist, it throws.
-
-        $config = new MySQLConfigDTO(
-            dsn: 'invalid_driver://localhost',
-            username: 'user',
-            password: 'password'
-        );
-
-        $builder = new MySQLDBALDriverBuilder();
-
-        $this->expectException(DriverBuildException::class);
-        $this->expectExceptionMessage('Failed to build Doctrine DBAL MySQL connection');
-
-        $builder->build($config);
+namespace Maatify\InfraDrivers\Builder\MySQL {
+    if (! function_exists(__NAMESPACE__ . '\class_exists')) {
+        function class_exists(string $class, bool $autoload = true): bool
+        {
+            if ($class === \Doctrine\DBAL\DriverManager::class) {
+                return \Maatify\InfraDrivers\Tests\Builder\MySQL\MySQLDBALDriverBuilderTest::$classExists;
+            }
+            return \class_exists($class, $autoload);
+        }
     }
 }

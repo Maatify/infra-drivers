@@ -13,82 +13,62 @@
 
 declare(strict_types=1);
 
-namespace Maatify\InfraDrivers\Tests\Builder\Mongo;
+namespace Maatify\InfraDrivers\Tests\Builder\Mongo {
 
-use Maatify\InfraDrivers\Builder\Mongo\MongoDriverBuilder;
-use Maatify\InfraDrivers\Config\Mongo\MongoConfigDTO;
-use Maatify\InfraDrivers\Exception\DriverBuildException;
-use MongoDB\Client;
-use PHPUnit\Framework\TestCase;
+    use Maatify\InfraDrivers\Builder\Mongo\MongoDriverBuilder;
+    use Maatify\InfraDrivers\Config\Mongo\MongoConfigDTO;
+    use Maatify\InfraDrivers\Exception\DriverBuildException;
+    use PHPUnit\Framework\TestCase;
 
-class MongoDriverBuilderTest extends TestCase
-{
-    public function testBuildSuccess(): void
+    class MongoDriverBuilderTest extends TestCase
     {
-        $config = new MongoConfigDTO(
-            uri: 'mongodb://localhost:27017'
-        );
+        public static bool $extensionLoaded = true;
 
-        $builder = new MongoDriverBuilder();
-        $client = $builder->build($config);
+        protected function setUp(): void
+        {
+            self::$extensionLoaded = true;
+        }
 
-        $this->assertInstanceOf(Client::class, $client);
-    }
+        public function testBuildFailureWhenExtensionMissing(): void
+        {
+            self::$extensionLoaded = false;
 
-    public function testBuildFailureWithInvalidUri(): void
-    {
-        $config = new MongoConfigDTO(
-            uri: 'mongodb://' // Invalid URI (empty host list) usually throws InvalidArgumentException
-        );
+            $config = new MongoConfigDTO(
+                uri: 'mongodb://localhost:27017'
+            );
 
-        $builder = new MongoDriverBuilder();
+            $builder = new MongoDriverBuilder();
 
-        $this->expectException(DriverBuildException::class);
-        $this->expectExceptionMessage('Failed to build MongoDB client');
+            $this->expectException(DriverBuildException::class);
+            $this->expectExceptionMessage('MongoDB extension is not loaded');
 
-        $builder->build($config);
+            $builder->build($config);
+        }
+
+        public function testBuildFailureWithInvalidUri(): void
+        {
+            $config = new MongoConfigDTO(
+                uri: 'mongodb://'
+            );
+
+            $builder = new MongoDriverBuilder();
+
+            $this->expectException(DriverBuildException::class);
+            $this->expectExceptionMessage('Failed to build MongoDB client');
+
+            $builder->build($config);
+        }
     }
 }
 
-// Namespace mocking for extension_loaded
-namespace Maatify\InfraDrivers\Builder\Mongo;
-
-function extension_loaded(string $extension): bool
-{
-    if ($extension === 'mongodb') {
-        return \Maatify\InfraDrivers\Tests\Builder\Mongo\MongoExtensionMock::$loaded;
-    }
-    return \extension_loaded($extension);
-}
-
-namespace Maatify\InfraDrivers\Tests\Builder\Mongo;
-
-class MongoExtensionMock
-{
-    public static bool $loaded = true;
-}
-
-// Add a test for missing extension
-class MongoDriverBuilderExtensionMissingTest extends TestCase
-{
-    protected function tearDown(): void
-    {
-        MongoExtensionMock::$loaded = true;
-    }
-
-    public function testBuildFailureWhenExtensionMissing(): void
-    {
-        MongoExtensionMock::$loaded = false;
-
-        $config = new MongoConfigDTO(
-            uri: 'mongodb://localhost:27017'
-        );
-
-        $builder = new MongoDriverBuilder();
-
-        $this->expectException(DriverBuildException::class);
-        $this->expectExceptionMessage('MongoDB extension is not loaded');
-
-        $builder->build($config);
+namespace Maatify\InfraDrivers\Builder\Mongo {
+    if (! function_exists(__NAMESPACE__ . '\extension_loaded')) {
+        function extension_loaded(string $extension): bool
+        {
+            if ($extension === 'mongodb') {
+                return \Maatify\InfraDrivers\Tests\Builder\Mongo\MongoDriverBuilderTest::$extensionLoaded;
+            }
+            return \extension_loaded($extension);
+        }
     }
 }

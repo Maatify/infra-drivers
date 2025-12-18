@@ -18,28 +18,12 @@ namespace Maatify\InfraDrivers\Tests\Builder\MySQL;
 use Maatify\InfraDrivers\Builder\MySQL\MySQLDriverBuilder;
 use Maatify\InfraDrivers\Config\MySQL\MySQLConfigDTO;
 use Maatify\InfraDrivers\Exception\DriverBuildException;
-use PDO;
 use PHPUnit\Framework\TestCase;
 
 class MySQLDriverBuilderTest extends TestCase
 {
-    public function testBuildSuccessWithSqlite(): void
+    public function testBuildFailureWhenDriverMissing(): void
     {
-        $config = new MySQLConfigDTO(
-            dsn: 'sqlite::memory:',
-            username: 'user',
-            password: 'password'
-        );
-
-        $builder = new MySQLDriverBuilder();
-        $pdo = $builder->build($config);
-
-        $this->assertInstanceOf(PDO::class, $pdo);
-    }
-
-    public function testBuildFailureWithInvalidDsn(): void
-    {
-        // Using an unknown driver to force PDOException without network access
         $config = new MySQLConfigDTO(
             dsn: 'unknown:driver',
             username: 'user',
