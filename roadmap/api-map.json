@@ -1,0 +1,121 @@
+{
+  "namespace": "Maatify\\InfraDrivers",
+  "public_api": {
+    "classes": {
+      "Maatify\\InfraDrivers\\Config\\MySQL\\MySQLConfigDTO": {
+        "type": "class",
+        "visibility": "public",
+        "methods": {
+          "__construct": {
+            "visibility": "public",
+            "arguments": [
+              {
+                "name": "dsn",
+                "type": "string",
+                "nullable": false
+              },
+              {
+                "name": "username",
+                "type": "string",
+                "nullable": false
+              },
+              {
+                "name": "password",
+                "type": "string",
+                "nullable": false
+              },
+              {
+                "name": "options",
+                "type": "array",
+                "nullable": false,
+                "default": []
+              }
+            ],
+            "return_type": "void",
+            "throws": [
+              "InvalidArgumentException"
+            ]
+          }
+        }
+      },
+
+      "Maatify\\InfraDrivers\\Config\\Redis\\RedisConfigDTO": {
+        "type": "class",
+        "visibility": "public",
+        "methods": {
+          "__construct": {
+            "visibility": "public",
+            "arguments": [
+              {
+                "name": "host",
+                "type": "string",
+                "nullable": false
+              },
+              {
+                "name": "port",
+                "type": "int",
+                "nullable": false,
+                "default": 6379
+              },
+              {
+                "name": "password",
+                "type": "string",
+                "nullable": true,
+                "default": null
+              },
+              {
+                "name": "database",
+                "type": "int",
+                "nullable": false,
+                "default": 0
+              },
+              {
+                "name": "timeout",
+                "type": "float",
+                "nullable": false,
+                "default": 0.0
+              }
+            ],
+            "return_type": "void",
+            "throws": [
+              "InvalidArgumentException"
+            ]
+          }
+        }
+      },
+
+      "Maatify\\InfraDrivers\\Config\\Mongo\\MongoConfigDTO": {
+        "type": "class",
+        "visibility": "public",
+        "methods": {
+          "__construct": {
+            "visibility": "public",
+            "arguments": [
+              {
+                "name": "uri",
+                "type": "string",
+                "nullable": false
+              },
+              {
+                "name": "uriOptions",
+                "type": "array",
+                "nullable": false,
+                "default": []
+              },
+              {
+                "name": "driverOptions",
+                "type": "array",
+                "nullable": false,
+                "default": []
+              }
+            ],
+            "return_type": "void",
+            "throws": [
+              "InvalidArgumentException"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
