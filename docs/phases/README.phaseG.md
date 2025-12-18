@@ -1,4 +1,6 @@
 # Phase G — Dependency Matrix & Composer Policy
+[![Infra Drivers Repository](https://img.shields.io/badge/Infra--Drivers-Repository-blue?style=for-the-badge)](../../README.md)
+[![Maatify Ecosystem](https://img.shields.io/badge/Maatify-Ecosystem-9C27B0?style=for-the-badge)](https://github.com/Maatify)
 
 ## Status
 
@@ -62,7 +64,7 @@ This allows Composer to:
 ## 🔗 Dependency Matrix
 
 | Builder Class            | Required Dependency | Type             |
-| ------------------------ | ------------------- | ---------------- |
+|--------------------------|---------------------|------------------|
 | `MySQLDriverBuilder`     | `ext-pdo`           | PHP extension    |
 | `MySQLDBALDriverBuilder` | `doctrine/dbal`     | Composer package |
 | `RedisDriverBuilder`     | `ext-redis`         | PHP extension    |
