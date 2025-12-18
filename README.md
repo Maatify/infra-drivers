@@ -90,6 +90,58 @@ Public API changes require a major version bump.
 
 ---
 
+## Quick Start
+
+`maatify/infra-drivers` is a **low-level infrastructure wiring library**.
+
+It builds **real native drivers** from **explicit configuration DTOs**
+without reading environment variables or relying on DI containers.
+
+### Example: MySQL using PDO
+
+```php
+use Maatify\InfraDrivers\Config\MySQL\MySQLConfigDTO;
+use Maatify\InfraDrivers\Builder\MySQL\MySQLDriverBuilder;
+
+$config = new MySQLConfigDTO(
+    dsn: 'mysql:host=localhost;dbname=test_db;charset=utf8mb4',
+    username: 'user',
+    password: 'password'
+);
+
+$builder = new MySQLDriverBuilder();
+
+/** @var PDO $pdo */
+$pdo = $builder->build($config);
+```
+
+This example demonstrates **pure wiring only**:
+
+- No environment loading
+- No service container
+- No abstraction layer
+
+---
+
+## Usage Examples
+
+This repository includes **standalone executable examples** demonstrating
+correct usage for all supported drivers.
+
+Available examples:
+
+- MySQL (PDO)
+- MySQL (Doctrine DBAL)
+- Redis (ext-redis)
+- Redis (Predis)
+- MongoDB
+
+📁 See the full list in [`examples/`](./examples/README.md)
+
+⚠️ These examples are for **reference only** and are not production bootstraps.
+
+---
+
 ## One-line identity
 
 > Build real infrastructure drivers from explicit configuration objects — nothing more, nothing less.

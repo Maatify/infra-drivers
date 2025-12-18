@@ -199,7 +199,40 @@
         "Confirmed deterministic failure model for missing dependencies",
         "No source code, API, test, or behavior changes introduced"
       ]
+    },
+    {
+      "phase": "phaseH",
+      "title": "Usage Examples & Integration Patterns",
+      "status": "completed",
+      "changes": {
+        "added": {
+          "files": [
+            "examples/README.md",
+            "examples/mysql-pdo.php",
+            "examples/mysql-dbal.php",
+            "examples/redis-ext.php",
+            "examples/redis-predis.php",
+            "examples/mongo.php"
+          ]
+        },
+        "edited": {
+          "classes": [],
+          "methods": []
+        },
+        "deleted": {
+          "classes": [],
+          "methods": []
+        }
+      },
+      "notes": [
+        "Added standalone executable usage examples for all supported drivers",
+        "Demonstrated correct Config DTO → Builder → Native Driver wiring",
+        "Provided user-facing examples README with warnings and dependency list",
+        "Confirmed examples contain no env loading, DI, factories, or fallback logic",
+        "No source code, API, or behavior changes introduced"
+      ]
     }
+
 
 
   ]
