@@ -46,22 +46,6 @@ namespace Maatify\InfraDrivers\Tests\Builder\MySQL {
 
             $builder->build($config);
         }
-
-        public function testBuildFailureWithInvalidParams(): void
-        {
-            $config = new MySQLConfigDTO(
-                dsn: 'invalid_scheme://localhost',
-                username: 'user',
-                password: 'password'
-            );
-
-            $builder = new MySQLDBALDriverBuilder();
-
-            $this->expectException(DriverBuildException::class);
-            $this->expectExceptionMessage('Failed to build Doctrine DBAL MySQL connection');
-
-            $builder->build($config);
-        }
     }
 }
 

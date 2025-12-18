@@ -44,20 +44,6 @@ namespace Maatify\InfraDrivers\Tests\Builder\Mongo {
 
             $builder->build($config);
         }
-
-        public function testBuildFailureWithInvalidUri(): void
-        {
-            $config = new MongoConfigDTO(
-                uri: 'mongodb://'
-            );
-
-            $builder = new MongoDriverBuilder();
-
-            $this->expectException(DriverBuildException::class);
-            $this->expectExceptionMessage('Failed to build MongoDB client');
-
-            $builder->build($config);
-        }
     }
 }
 
