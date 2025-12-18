@@ -15,9 +15,10 @@ declare(strict_types=1);
 
 namespace Maatify\InfraDrivers\Config\MySQL;
 
+use Maatify\InfraDrivers\Exception\InvalidDriverConfigException;
+
 final readonly class MySQLConfigDTO
 {
-
     /**
      * @param array<string, mixed> $options
      */
@@ -28,11 +29,11 @@ final readonly class MySQLConfigDTO
         public array $options = []
     ) {
         if ($this->dsn === '') {
-            throw new \InvalidArgumentException('MySQL DSN must not be empty.');
+            throw new InvalidDriverConfigException('MySQL DSN must not be empty.');
         }
 
         if ($this->username === '') {
-            throw new \InvalidArgumentException('MySQL username must not be empty.');
+            throw new InvalidDriverConfigException('MySQL username must not be empty.');
         }
     }
 }

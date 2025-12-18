@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace Maatify\InfraDrivers\Config\Mongo;
 
+use Maatify\InfraDrivers\Exception\InvalidDriverConfigException;
+
 final readonly class MongoConfigDTO
 {
     /**
@@ -27,7 +29,7 @@ final readonly class MongoConfigDTO
         public array $driverOptions = []
     ) {
         if ($this->uri === '') {
-            throw new \InvalidArgumentException('MongoDB URI must not be empty.');
+            throw new InvalidDriverConfigException('MongoDB URI must not be empty.');
         }
     }
 }

@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace Maatify\InfraDrivers\Config\Redis;
 
+use Maatify\InfraDrivers\Exception\InvalidDriverConfigException;
+
 final readonly class RedisConfigDTO
 {
     public function __construct(
@@ -25,19 +27,23 @@ final readonly class RedisConfigDTO
         public float $timeout = 0.0
     ) {
         if ($this->host === '') {
-            throw new \InvalidArgumentException('Redis host must not be empty.');
+            throw new InvalidDriverConfigException('Redis host must not be empty.');
         }
 
         if ($this->port <= 0) {
-            throw new \InvalidArgumentException('Redis port must be greater than zero.');
+            throw new InvalidDriverConfigException('Redis port must be greater than zero.');
         }
 
         if ($this->database < 0) {
-            throw new \InvalidArgumentException('Redis database index must be zero or positive.');
+            throw new InvalidDriverConfigException(
+                'Redis database index must be zero or positive.'
+            );
         }
 
-        if ($this->timeout < 0) {
-            throw new \InvalidArgumentException('Redis timeout must be zero or positive.');
+        if ($this->timeout < 0.0) {
+            throw new InvalidDriverConfigException(
+                'Redis timeout must be zero or positive.'
+            );
         }
     }
 }
