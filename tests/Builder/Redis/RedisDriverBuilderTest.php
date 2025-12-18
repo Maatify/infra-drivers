@@ -17,7 +17,7 @@ namespace Maatify\InfraDrivers\Tests\Builder\Redis {
 
     use Maatify\InfraDrivers\Builder\Redis\RedisDriverBuilder;
     use Maatify\InfraDrivers\Config\Redis\RedisConfigDTO;
-    use Maatify\InfraDrivers\Exception\DriverBuildException;
+    use Maatify\InfraDrivers\Exception\MissingExtensionException;
     use PHPUnit\Framework\TestCase;
 
     class RedisDriverBuilderTest extends TestCase
@@ -39,8 +39,8 @@ namespace Maatify\InfraDrivers\Tests\Builder\Redis {
 
             $builder = new RedisDriverBuilder();
 
-            $this->expectException(DriverBuildException::class);
-            $this->expectExceptionMessage('Redis extension is not loaded');
+            $this->expectException(MissingExtensionException::class);
+            $this->expectExceptionMessage('Required PHP extension "redis" is not loaded.');
 
             $builder->build($config);
         }

@@ -17,7 +17,7 @@ namespace Maatify\InfraDrivers\Tests\Builder\MySQL {
 
     use Maatify\InfraDrivers\Builder\MySQL\MySQLDBALDriverBuilder;
     use Maatify\InfraDrivers\Config\MySQL\MySQLConfigDTO;
-    use Maatify\InfraDrivers\Exception\DriverBuildException;
+    use Maatify\InfraDrivers\Exception\MissingExtensionException;
     use PHPUnit\Framework\TestCase;
 
     class MySQLDBALDriverBuilderTest extends TestCase
@@ -41,8 +41,8 @@ namespace Maatify\InfraDrivers\Tests\Builder\MySQL {
 
             $builder = new MySQLDBALDriverBuilder();
 
-            $this->expectException(DriverBuildException::class);
-            $this->expectExceptionMessage('Doctrine DBAL is not installed');
+            $this->expectException(MissingExtensionException::class);
+            $this->expectExceptionMessage('Required PHP extension "doctrine/dbal" is not loaded.');
 
             $builder->build($config);
         }

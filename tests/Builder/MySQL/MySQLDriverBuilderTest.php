@@ -33,7 +33,7 @@ class MySQLDriverBuilderTest extends TestCase
         $builder = new MySQLDriverBuilder();
 
         $this->expectException(DriverBuildException::class);
-        $this->expectExceptionMessage('Failed to build PDO MySQL driver');
+        $this->expectExceptionMessage('Failed to build MySQL (PDO) driver.');
 
         $builder->build($config);
     }

@@ -28,6 +28,14 @@
     "php": ">=8.2"
   },
 
+  "suggest": {
+    "ext-pdo": "Required to use MySQLDriverBuilder",
+    "doctrine/dbal": "Required to use MySQLDBALDriverBuilder",
+    "ext-redis": "Required to use RedisDriverBuilder (ext-redis)",
+    "predis/predis": "Required to use PredisDriverBuilder",
+    "mongodb/mongodb": "Required to use MongoDriverBuilder"
+  },
+
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.89",
     "phpstan/phpstan": "^2.0",

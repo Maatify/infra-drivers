@@ -17,7 +17,7 @@ namespace Maatify\InfraDrivers\Tests\Builder\Redis {
 
     use Maatify\InfraDrivers\Builder\Redis\PredisDriverBuilder;
     use Maatify\InfraDrivers\Config\Redis\RedisConfigDTO;
-    use Maatify\InfraDrivers\Exception\DriverBuildException;
+    use Maatify\InfraDrivers\Exception\MissingExtensionException;
     use PHPUnit\Framework\TestCase;
 
     class PredisDriverBuilderTest extends TestCase
@@ -39,8 +39,8 @@ namespace Maatify\InfraDrivers\Tests\Builder\Redis {
 
             $builder = new PredisDriverBuilder();
 
-            $this->expectException(DriverBuildException::class);
-            $this->expectExceptionMessage('Predis library is not installed');
+            $this->expectException(MissingExtensionException::class);
+            $this->expectExceptionMessage('Required PHP extension "predis/predis" is not loaded.');
 
             $builder->build($config);
         }
