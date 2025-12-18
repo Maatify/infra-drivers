@@ -32,7 +32,10 @@
     "friendsofphp/php-cs-fixer": "^3.89",
     "phpstan/phpstan": "^2.0",
     "phpunit/phpunit": "^11.0",
-    "maatify/bootstrap": "^1.0"
+    "maatify/bootstrap": "^1.0",
+    "mongodb/mongodb": "^2.0",
+    "predis/predis": "^2.3",
+    "doctrine/dbal": "^4.3"
   },
 
   "autoload": {
