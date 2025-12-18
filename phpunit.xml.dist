@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
 
-        bootstrap="vendor/autoload.php"
+        bootstrap="tests/bootstrap.php"
         colors="true"
         executionOrder="random"
         failOnRisky="true"
@@ -12,7 +12,7 @@
         cacheDirectory=".phpunit.cache"
 >
   <testsuites>
-    <testsuite name="Maatify Data Adapters">
+    <testsuite name="Maatify infrastructure driver">
       <directory>tests</directory>
     </testsuite>
   </testsuites>

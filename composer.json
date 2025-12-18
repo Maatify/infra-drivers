@@ -31,7 +31,8 @@
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.89",
     "phpstan/phpstan": "^2.0",
-    "phpunit/phpunit": "^11.0"
+    "phpunit/phpunit": "^11.0",
+    "maatify/bootstrap": "^1.0"
   },
 
   "autoload": {
