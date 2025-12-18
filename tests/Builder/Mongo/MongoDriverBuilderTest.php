@@ -17,7 +17,7 @@ namespace Maatify\InfraDrivers\Tests\Builder\Mongo {
 
     use Maatify\InfraDrivers\Builder\Mongo\MongoDriverBuilder;
     use Maatify\InfraDrivers\Config\Mongo\MongoConfigDTO;
-    use Maatify\InfraDrivers\Exception\DriverBuildException;
+    use Maatify\InfraDrivers\Exception\MissingExtensionException;
     use PHPUnit\Framework\TestCase;
 
     class MongoDriverBuilderTest extends TestCase
@@ -39,8 +39,8 @@ namespace Maatify\InfraDrivers\Tests\Builder\Mongo {
 
             $builder = new MongoDriverBuilder();
 
-            $this->expectException(DriverBuildException::class);
-            $this->expectExceptionMessage('MongoDB extension is not loaded');
+            $this->expectException(MissingExtensionException::class);
+            $this->expectExceptionMessage('Required PHP extension "mongodb" is not loaded.');
 
             $builder->build($config);
         }
