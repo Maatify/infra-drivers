@@ -17,6 +17,7 @@ namespace Maatify\InfraDrivers\Builder\Redis;
 
 use Maatify\InfraDrivers\Config\Redis\RedisConfigDTO;
 use Maatify\InfraDrivers\Exception\DriverBuildException;
+use Maatify\InfraDrivers\Exception\MissingExtensionException;
 use Redis;
 use RedisException;
 
@@ -24,8 +25,8 @@ final class RedisDriverBuilder
 {
     public function build(RedisConfigDTO $config): Redis
     {
-        if (! extension_loaded('redis')) {
-            throw new DriverBuildException('Redis extension is not loaded');
+        if (!extension_loaded('redis')) {
+            throw MissingExtensionException::forExtension('redis');
         }
 
         $redis = new Redis();
@@ -38,23 +39,16 @@ final class RedisDriverBuilder
             );
 
             if ($config->password !== null) {
-                if ($redis->auth($config->password) !== true) {
-                    throw new DriverBuildException('Redis authentication failed');
-                }
+                $redis->auth($config->password);
             }
 
             if ($config->database !== 0) {
-                if ($redis->select($config->database) !== true) {
-                    throw new DriverBuildException('Redis database selection failed');
-                }
+                $redis->select($config->database);
             }
 
             return $redis;
         } catch (RedisException $e) {
-            throw new DriverBuildException(
-                'Failed to build Redis driver',
-                previous: $e
-            );
+            throw DriverBuildException::fromThrowable('Redis', $e);
         }
     }
 }

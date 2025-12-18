@@ -17,6 +17,7 @@ namespace Maatify\InfraDrivers\Builder\MySQL;
 
 use Maatify\InfraDrivers\Config\MySQL\MySQLConfigDTO;
 use Maatify\InfraDrivers\Exception\DriverBuildException;
+use Maatify\InfraDrivers\Exception\MissingExtensionException;
 use PDO;
 use PDOException;
 
@@ -24,6 +25,10 @@ final class MySQLDriverBuilder
 {
     public function build(MySQLConfigDTO $config): PDO
     {
+        if (!extension_loaded('pdo')) {
+            throw MissingExtensionException::forExtension('pdo');
+        }
+
         try {
             return new PDO(
                 $config->dsn,
@@ -32,10 +37,7 @@ final class MySQLDriverBuilder
                 $config->options
             );
         } catch (PDOException $e) {
-            throw new DriverBuildException(
-                'Failed to build PDO MySQL driver',
-                previous: $e
-            );
+            throw DriverBuildException::fromThrowable('MySQL (PDO)', $e);
         }
     }
 }

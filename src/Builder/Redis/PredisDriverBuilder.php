@@ -17,6 +17,7 @@ namespace Maatify\InfraDrivers\Builder\Redis;
 
 use Maatify\InfraDrivers\Config\Redis\RedisConfigDTO;
 use Maatify\InfraDrivers\Exception\DriverBuildException;
+use Maatify\InfraDrivers\Exception\MissingExtensionException;
 use Predis\Client as PredisClient;
 use Throwable;
 
@@ -24,10 +25,8 @@ final class PredisDriverBuilder
 {
     public function build(RedisConfigDTO $config): PredisClient
     {
-        if (! class_exists(PredisClient::class)) {
-            throw new DriverBuildException(
-                'Predis library is not installed'
-            );
+        if (!class_exists(PredisClient::class)) {
+            throw MissingExtensionException::forExtension('predis/predis');
         }
 
         try {
@@ -40,10 +39,7 @@ final class PredisDriverBuilder
                 'timeout'  => $config->timeout,
             ]);
         } catch (Throwable $e) {
-            throw new DriverBuildException(
-                'Failed to build Predis client',
-                previous: $e
-            );
+            throw DriverBuildException::fromThrowable('Predis', $e);
         }
     }
 }

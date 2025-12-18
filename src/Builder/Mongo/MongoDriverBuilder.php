@@ -17,6 +17,7 @@ namespace Maatify\InfraDrivers\Builder\Mongo;
 
 use Maatify\InfraDrivers\Config\Mongo\MongoConfigDTO;
 use Maatify\InfraDrivers\Exception\DriverBuildException;
+use Maatify\InfraDrivers\Exception\MissingExtensionException;
 use MongoDB\Client;
 use Throwable;
 
@@ -24,8 +25,8 @@ final class MongoDriverBuilder
 {
     public function build(MongoConfigDTO $config): Client
     {
-        if (! extension_loaded('mongodb')) {
-            throw new DriverBuildException('MongoDB extension is not loaded');
+        if (!extension_loaded('mongodb')) {
+            throw MissingExtensionException::forExtension('mongodb');
         }
 
         try {
@@ -35,10 +36,7 @@ final class MongoDriverBuilder
                 $config->driverOptions
             );
         } catch (Throwable $e) {
-            throw new DriverBuildException(
-                'Failed to build MongoDB client',
-                previous: $e
-            );
+            throw DriverBuildException::fromThrowable('MongoDB', $e);
         }
     }
 }

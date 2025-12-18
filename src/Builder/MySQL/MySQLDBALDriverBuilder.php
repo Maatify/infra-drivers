@@ -20,15 +20,14 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception as DBALException;
 use Maatify\InfraDrivers\Config\MySQL\MySQLConfigDTO;
 use Maatify\InfraDrivers\Exception\DriverBuildException;
+use Maatify\InfraDrivers\Exception\MissingExtensionException;
 
 final class MySQLDBALDriverBuilder
 {
     public function build(MySQLConfigDTO $config): Connection
     {
-        if (! class_exists(DriverManager::class)) {
-            throw new DriverBuildException(
-                'Doctrine DBAL is not installed'
-            );
+        if (!class_exists(DriverManager::class)) {
+            throw MissingExtensionException::forExtension('doctrine/dbal');
         }
 
         try {
@@ -39,10 +38,7 @@ final class MySQLDBALDriverBuilder
                 'options'  => $config->options,
             ]);
         } catch (DBALException $e) {
-            throw new DriverBuildException(
-                'Failed to build Doctrine DBAL MySQL connection',
-                previous: $e
-            );
+            throw DriverBuildException::fromThrowable('MySQL (DBAL)', $e);
         }
     }
 }

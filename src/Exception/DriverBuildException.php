@@ -16,7 +16,18 @@ declare(strict_types=1);
 namespace Maatify\InfraDrivers\Exception;
 
 use RuntimeException;
+use Throwable;
 
 final class DriverBuildException extends RuntimeException
 {
+    public static function fromThrowable(
+        string $driver,
+        Throwable $previous
+    ): self {
+        return new self(
+            sprintf('Failed to build %s driver.', $driver),
+            0,
+            $previous
+        );
+    }
 }
