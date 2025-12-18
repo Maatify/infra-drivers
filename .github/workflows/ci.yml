@@ -7,91 +7,18 @@ on:
     branches: [ main, dev ]
 
 permissions:
-  contents: write   # مطلوب فقط علشان البادج
+  contents: write
 
 jobs:
-  # -------------------------------------------------
-  # 1) Run reusable library CI
-  # -------------------------------------------------
   library:
     uses: maatify/.github/.github/workflows/library-ci.yml@main
     secrets:
       TELEGRAM_CI_BOT_TOKEN: ${{ secrets.TELEGRAM_CI_BOT_TOKEN }}
       TELEGRAM_CI_CHAT_ID: ${{ secrets.TELEGRAM_CI_CHAT_ID }}
 
-  # -------------------------------------------------
-  # 2) Generate & publish coverage badge (push فقط)
-  # -------------------------------------------------
   badge:
     needs: library
     if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      # 👇 هنا انت بتحدد قيمة الـ coverage
-      # حاليا ثابتة كمثال
-      # لو حابب بعد كده تربطها بـ artifact أو API نعملها
-      - name: Set coverage value
-        id: cov
-        run: |
-          COVERAGE=92
-          echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
-
-      - name: Generate Coverage Badge JSON
-        run: |
-          COV="${{ steps.cov.outputs.coverage }}"
-
-          if [ "$COV" -ge 95 ]; then
-            COLOR="brightgreen"
-          elif [ "$COV" -ge 90 ]; then
-            COLOR="green"
-          elif [ "$COV" -ge 80 ]; then
-            COLOR="yellow"
-          elif [ "$COV" -ge 70 ]; then
-            COLOR="orange"
-          else
-            COLOR="red"
-          fi
-
-          echo "{
-            \"schemaVersion\": 1,
-            \"label\": \"coverage\",
-            \"message\": \"${COV}%\",
-            \"color\": \"${COLOR}\"
-          }" > coverage.json
-
-      - name: Stash badge artifact
-        run: |
-          cp coverage.json /tmp/coverage.json
-
-      - name: Push badge to badges branch
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-          git fetch origin
-
-          if git ls-remote --exit-code origin badges; then
-            git checkout badges
-          else
-            git checkout --orphan badges
-          fi
-
-          git reset --hard
-          git clean -fdx
-
-          cp /tmp/coverage.json coverage.json
-          git add -f coverage.json
-
-          if git diff --cached --quiet; then
-            echo "No badge changes"
-          else
-            git commit -m "Update coverage badge (${COV}%)"
-          fi
-
-          git push origin badges --force
+    uses: maatify/.github/.github/workflows/coverage-badge.yml@main
+    with:
+      coverage: ${{ needs.library.outputs.coverage }}
