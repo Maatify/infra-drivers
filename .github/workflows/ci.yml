@@ -65,6 +65,10 @@ jobs:
             \"color\": \"${COLOR}\"
           }" > coverage.json
 
+      - name: Stash badge artifact
+        run: |
+          cp coverage.json /tmp/coverage.json
+
       - name: Push badge to badges branch
         run: |
           git config user.name "github-actions"
@@ -81,7 +85,7 @@ jobs:
           git reset --hard
           git clean -fdx
 
-          cp coverage.json coverage.json
+          cp /tmp/coverage.json coverage.json
           git add -f coverage.json
 
           if git diff --cached --quiet; then
