@@ -149,6 +149,30 @@
         "Strengthened semantic error boundaries for configuration validation",
         "No builder or public API changes introduced"
       ]
+    },
+    {
+      "phase": "phaseF",
+      "title": "Documentation Hardening",
+      "status": "completed",
+      "changes": {
+        "added": {
+          "classes": [],
+          "methods": []
+        },
+        "edited": {
+          "classes": [],
+          "methods": []
+        },
+        "deleted": {
+          "classes": [],
+          "methods": []
+        }
+      },
+      "notes": [
+        "Clarified library boundaries and responsibilities",
+        "Documented explicit non-goals and misuse patterns",
+        "No code, API, or behavior changes introduced"
+      ]
     }
 
   ]
