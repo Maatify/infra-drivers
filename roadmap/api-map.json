@@ -217,7 +217,50 @@
       "Maatify\\InfraDrivers\\Exception\\DriverBuildException": {
         "type": "class",
         "visibility": "public",
-        "extends": "RuntimeException"
+        "extends": "RuntimeException",
+        "methods": {
+          "fromThrowable": {
+            "visibility": "public",
+            "static": true,
+            "arguments": [
+              {
+                "name": "driver",
+                "type": "string",
+                "nullable": false
+              },
+              {
+                "name": "previous",
+                "type": "Throwable",
+                "nullable": false
+              }
+            ],
+            "return_type": "self"
+          }
+        }
+      },
+      "Maatify\\InfraDrivers\\Exception\\InvalidDriverConfigException": {
+        "type": "class",
+        "visibility": "public",
+        "extends": "InvalidArgumentException"
+      },
+      "Maatify\\InfraDrivers\\Exception\\MissingExtensionException": {
+        "type": "class",
+        "visibility": "public",
+        "extends": "RuntimeException",
+        "methods": {
+          "forExtension": {
+            "visibility": "public",
+            "static": true,
+            "arguments": [
+              {
+                "name": "extension",
+                "type": "string",
+                "nullable": false
+              }
+            ],
+            "return_type": "self"
+          }
+        }
       }
     }
   }

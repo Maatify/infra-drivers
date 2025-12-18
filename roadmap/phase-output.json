@@ -78,6 +78,46 @@
         "No runtime detection, environment access, adapters, retries, or fallback logic introduced",
         "Failures are explicit, deterministic, and surfaced via typed infrastructure exceptions"
       ]
+    },
+    {
+      "phase": "phaseD",
+      "title": "Error Boundary & Exception Model",
+      "status": "completed",
+      "changes": {
+        "added": {
+          "classes": [
+            "Maatify\\InfraDrivers\\Exception\\InvalidDriverConfigException",
+            "Maatify\\InfraDrivers\\Exception\\MissingExtensionException"
+          ],
+          "methods": [
+            "Maatify\\InfraDrivers\\Exception\\MissingExtensionException::forExtension"
+          ]
+        },
+        "edited": {
+          "classes": [
+            "Maatify\\InfraDrivers\\Exception\\DriverBuildException"
+          ],
+          "methods": [
+            "Maatify\\InfraDrivers\\Exception\\DriverBuildException::fromThrowable",
+            "Maatify\\InfraDrivers\\Builder\\MySQL\\MySQLDriverBuilder::build",
+            "Maatify\\InfraDrivers\\Builder\\MySQL\\MySQLDBALDriverBuilder::build",
+            "Maatify\\InfraDrivers\\Builder\\Redis\\RedisDriverBuilder::build",
+            "Maatify\\InfraDrivers\\Builder\\Redis\\PredisDriverBuilder::build",
+            "Maatify\\InfraDrivers\\Builder\\Mongo\\MongoDriverBuilder::build"
+          ]
+        },
+        "deleted": {
+          "classes": [],
+          "methods": []
+        }
+      },
+      "notes": [
+        "Introduced a unified, typed exception model for infrastructure failures",
+        "Linked all driver builders to deterministic error boundaries",
+        "Native driver errors are preserved and wrapped only when adding semantic meaning",
+        "No environment access, retries, or fallback logic introduced"
+      ]
     }
+
   ]
 }
