@@ -11,7 +11,9 @@ permissions:
 
 jobs:
   library:
+
     uses: maatify/.github/.github/workflows/library-ci.yml@main
+
     secrets:
       TELEGRAM_CI_BOT_TOKEN: ${{ secrets.TELEGRAM_CI_BOT_TOKEN }}
       TELEGRAM_CI_CHAT_ID: ${{ secrets.TELEGRAM_CI_CHAT_ID }}
