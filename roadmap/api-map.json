@@ -38,7 +38,6 @@
           }
         }
       },
-
       "Maatify\\InfraDrivers\\Config\\Redis\\RedisConfigDTO": {
         "type": "class",
         "visibility": "public",
@@ -83,7 +82,6 @@
           }
         }
       },
-
       "Maatify\\InfraDrivers\\Config\\Mongo\\MongoConfigDTO": {
         "type": "class",
         "visibility": "public",
@@ -115,6 +113,111 @@
             ]
           }
         }
+      },
+      "Maatify\\InfraDrivers\\Builder\\MySQL\\MySQLDriverBuilder": {
+        "type": "class",
+        "visibility": "public",
+        "methods": {
+          "build": {
+            "visibility": "public",
+            "arguments": [
+              {
+                "name": "config",
+                "type": "Maatify\\InfraDrivers\\Config\\MySQL\\MySQLConfigDTO",
+                "nullable": false
+              }
+            ],
+            "return_type": "PDO",
+            "throws": [
+              "Maatify\\InfraDrivers\\Exception\\DriverBuildException"
+            ]
+          }
+        }
+      },
+      "Maatify\\InfraDrivers\\Builder\\MySQL\\MySQLDBALDriverBuilder": {
+        "type": "class",
+        "visibility": "public",
+        "methods": {
+          "build": {
+            "visibility": "public",
+            "arguments": [
+              {
+                "name": "config",
+                "type": "Maatify\\InfraDrivers\\Config\\MySQL\\MySQLConfigDTO",
+                "nullable": false
+              }
+            ],
+            "return_type": "Doctrine\\DBAL\\Connection",
+            "throws": [
+              "Maatify\\InfraDrivers\\Exception\\DriverBuildException"
+            ]
+          }
+        }
+      },
+      "Maatify\\InfraDrivers\\Builder\\Redis\\RedisDriverBuilder": {
+        "type": "class",
+        "visibility": "public",
+        "methods": {
+          "build": {
+            "visibility": "public",
+            "arguments": [
+              {
+                "name": "config",
+                "type": "Maatify\\InfraDrivers\\Config\\Redis\\RedisConfigDTO",
+                "nullable": false
+              }
+            ],
+            "return_type": "Redis",
+            "throws": [
+              "Maatify\\InfraDrivers\\Exception\\DriverBuildException"
+            ]
+          }
+        }
+      },
+      "Maatify\\InfraDrivers\\Builder\\Redis\\PredisDriverBuilder": {
+        "type": "class",
+        "visibility": "public",
+        "methods": {
+          "build": {
+            "visibility": "public",
+            "arguments": [
+              {
+                "name": "config",
+                "type": "Maatify\\InfraDrivers\\Config\\Redis\\RedisConfigDTO",
+                "nullable": false
+              }
+            ],
+            "return_type": "Predis\\Client",
+            "throws": [
+              "Maatify\\InfraDrivers\\Exception\\DriverBuildException"
+            ]
+          }
+        }
+      },
+      "Maatify\\InfraDrivers\\Builder\\Mongo\\MongoDriverBuilder": {
+        "type": "class",
+        "visibility": "public",
+        "methods": {
+          "build": {
+            "visibility": "public",
+            "arguments": [
+              {
+                "name": "config",
+                "type": "Maatify\\InfraDrivers\\Config\\Mongo\\MongoConfigDTO",
+                "nullable": false
+              }
+            ],
+            "return_type": "MongoDB\\Client",
+            "throws": [
+              "Maatify\\InfraDrivers\\Exception\\DriverBuildException"
+            ]
+          }
+        }
+      },
+      "Maatify\\InfraDrivers\\Exception\\DriverBuildException": {
+        "type": "class",
+        "visibility": "public",
+        "extends": "RuntimeException"
       }
     }
   }

@@ -32,6 +32,50 @@
         "No environment access or runtime logic introduced",
         "No builders or adapters introduced in this phase"
       ]
+    },
+    {
+      "phase": "phaseC",
+      "title": "Driver Builders",
+      "status": "completed",
+      "changes": {
+        "added": {
+          "classes": [
+            "Maatify\\InfraDrivers\\Exception\\DriverBuildException",
+
+            "Maatify\\InfraDrivers\\Builder\\MySQL\\MySQLDriverBuilder",
+            "Maatify\\InfraDrivers\\Builder\\MySQL\\MySQLDBALDriverBuilder",
+
+            "Maatify\\InfraDrivers\\Builder\\Redis\\RedisDriverBuilder",
+            "Maatify\\InfraDrivers\\Builder\\Redis\\PredisDriverBuilder",
+
+            "Maatify\\InfraDrivers\\Builder\\Mongo\\MongoDriverBuilder"
+          ],
+          "methods": [
+            "Maatify\\InfraDrivers\\Builder\\MySQL\\MySQLDriverBuilder::build",
+            "Maatify\\InfraDrivers\\Builder\\MySQL\\MySQLDBALDriverBuilder::build",
+
+            "Maatify\\InfraDrivers\\Builder\\Redis\\RedisDriverBuilder::build",
+            "Maatify\\InfraDrivers\\Builder\\Redis\\PredisDriverBuilder::build",
+
+            "Maatify\\InfraDrivers\\Builder\\Mongo\\MongoDriverBuilder::build"
+          ]
+        },
+        "edited": {
+          "classes": [],
+          "methods": []
+        },
+        "deleted": {
+          "classes": [],
+          "methods": []
+        }
+      },
+      "notes": [
+        "Introduced explicit driver builders for all supported infrastructures",
+        "All builders construct real native drivers from readonly configuration DTOs",
+        "Optional infrastructures (DBAL, Predis) are implemented via dedicated builders",
+        "No runtime detection, environment access, adapters, retries, or fallback logic introduced",
+        "Failures are explicit, deterministic, and surfaced via typed infrastructure exceptions"
+      ]
     }
   ]
 }
